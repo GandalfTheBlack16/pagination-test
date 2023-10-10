@@ -1,33 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { MovieComponent } from './components/MovieComponent'
+import { PaginationComponent } from './components/PaginationComponent'
+import { useMoviesPaginated } from './hooks/useMoviesPaginated'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const {
+    movieList,
+    currentPage,
+    changePage
+  } = useMoviesPaginated()
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>API Pagination demo</h1>
+      <main className="movie_list">
+        {
+          movieList.map(movie => {
+            return <MovieComponent 
+              key={movie.title.replace(/\s/g, '')}
+              href={movie.href}
+              title={movie.title}
+              year={movie.year}
+              extract={movie.extract}
+              genres={[]}
+              thumbnail={movie.thumbnail}
+              thumbnail_height={movie.thumbnail_height}
+              thumbnail_width={movie.thumbnail_width}
+            />  
+          })
+        }
+      </main>
+      <footer>
+        <PaginationComponent 
+          currentPage={currentPage}
+          totalPages={6}
+          changeCurrentPage={changePage}
+        />
+      </footer>
     </>
   )
 }

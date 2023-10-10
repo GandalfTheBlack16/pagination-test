@@ -1,7 +1,10 @@
 import Express from 'express'
 import { movieController } from './dependencies'
+import cors from 'cors'
 
 const app = Express()
+
+app.use(cors())
 
 app.get('/api/movies', movieController.run.bind(movieController))
 
